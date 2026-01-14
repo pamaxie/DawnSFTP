@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <Version>1.0.1</Version>
+        <Title>Dawn Sftp Client</Title>
+        <Authors>Pamaxie LLC</Authors>
+        <Copyright>Apache 2.0 License</Copyright>
+        <PackageIcon>512.png</PackageIcon>
+        <IsPackable>true</IsPackable>
+        <AssemblyVersion>1.0.1</AssemblyVersion>
+        <FileVersion>1.0.1</FileVersion>
+        <NeutralLanguage>EN-US</NeutralLanguage>
+        <SignAssembly>true</SignAssembly>
+        <PackageProjectUrl>https://github.com/pamaxie/dawnftp</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/pamaxie/dawnftp/license</PackageLicenseUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.3.2" />
+        <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.3.2" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.2" />
+        <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.1.1" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.2" />
+        <PackageReference Include="Avalonia.Labs.Controls" Version="11.3.0" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.2" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.2" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.2">
+            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.2" />
+        <PackageReference Include="Classic.Avalonia.Theme" Version="11.3.0.3" />
+        <PackageReference Include="Classic.Avalonia.Theme.DataGrid" Version="11.3.0.3" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="DialogHost.Avalonia" Version="0.9.3" />
+        <PackageReference Include="IdGen" Version="3.0.7" />
+        <PackageReference Include="KeySharp" Version="1.0.5" />
+        <PackageReference Include="LoadingIndicators.Avalonia" Version="11.0.11.1" />
+        <PackageReference Include="Material.Avalonia" Version="3.13.0" />
+        <PackageReference Include="Material.Avalonia.DataGrid" Version="3.13.0" />
+        <PackageReference Include="Material.Avalonia.Dialogs" Version="3.13.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.11" />
+        <PackageReference Include="Projektanker.Icons.Avalonia.FontAwesome" Version="9.6.2" />
+        <PackageReference Include="Renci.SshNet.Async" Version="1.4.0" />
+        <PackageReference Include="Semi.Avalonia" Version="11.2.1.10" />
+        <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.10" />
+        <PackageReference Include="Semi.Avalonia.Dock" Version="11.3.2" />
+        <PackageReference Include="Sentry" Version="6.0.0" />
+        <PackageReference Include="Sentry.Profiling" Version="6.0.0" />
+        <PackageReference Include="SSH.NET" Version="2025.0.0" />
+        <PackageReference Include="Verify.CommunityToolkit.Mvvm" Version="1.1.0" />
+        <PackageReference Include="Xaml.Behaviors.Interactions.Custom" Version="11.3.2" />
+        <PackageReference Include="Xaml.Behaviors.Interactions.DragAndDrop" Version="11.3.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="UserControls\FileView.axaml.cs">
+        <DependentUpon>FileView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+</Project>

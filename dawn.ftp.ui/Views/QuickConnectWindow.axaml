@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+        xmlns:viewModels1="clr-namespace:dawn.ftp.ui.ViewModels"
+        mc:Ignorable="d" Height="350" Width="450" CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        x:Class="dawn.ftp.ui.Views.QuickConnectWindow"
+        Title="New Connection Wizard"
+        x:DataType="viewModels1:QuickConnectViewModel">
+	<Design.DataContext>
+        <viewModels1:QuickConnectViewModel/>
+	  </Design.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+			<RowDefinition><![CDATA[1.2*]]></RowDefinition>
+            <RowDefinition><![CDATA[2*]]></RowDefinition>
+            <RowDefinition><![CDATA[1*]]></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition><![CDATA[3*]]></ColumnDefinition>
+                <ColumnDefinition><![CDATA[1*]]></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                <Label>Hostname / IP Address</Label>
+                <TextBox Watermark="example.com / 127.0.0.1" Text="{Binding IpAddress, Mode=TwoWay}"/>
+            </StackPanel>            
+            <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                <Label>Port</Label>
+	            <NumericUpDown Watermark="1-65535" Value="{Binding Port}" Minimum="1" Maximum="65535" ShowButtonSpinner="False"/>
+        	</StackPanel>
+       	</Grid>
+        <StackPanel Spacing="5" Grid.Row="1">
+            <StackPanel>
+                <Label>Username</Label>
+				<TextBox Watermark="JohnDoe" Text="{Binding UserName, Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel>
+                <CheckBox IsChecked="{Binding UseSshKey}">Use SSH Key</CheckBox>
+                <Label IsVisible="{Binding !UseSshKey}">Password</Label>
+                <Label IsVisible="{Binding UseSshKey}">SSH Key</Label>
+	            
+	            <!-- Password Box -->
+	            <Grid IsVisible="{Binding !UseSshKey}" Margin="5">
+		            <Grid.ColumnDefinitions>
+			            <ColumnDefinition><![CDATA[7*]]></ColumnDefinition>
+			            <ColumnDefinition><![CDATA[1*]]></ColumnDefinition>
+		            </Grid.ColumnDefinitions>
+		            
+		            <TextBox RevealPassword="{Binding ShowPassword}" PasswordChar="*" Watermark="SuperSafePassword"
+		                     Text="{Binding Password, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+		            
+		            <ToggleButton Grid.Column="1" Margin="5, 0, 0, 20" IsChecked="{Binding ShowPassword}">
+			            <ToolTip.Tip>Show Password</ToolTip.Tip>
+			            <Panel>
+				            <avalonia:Icon Value="fa-eye" />
+			            </Panel>
+		            </ToggleButton>
+	            </Grid>
+	            
+	            <ComboBox IsVisible="{Binding UseSshKey}" SelectedItem="{Binding SelectedKey}" ItemsSource="{Binding SSHKeys}">
+		            <ComboBox.ItemTemplate>
+			            <DataTemplate>
+				            <TextBlock Text="{Binding KeyIdentifier}" />
+			            </DataTemplate>
+		            </ComboBox.ItemTemplate>
+	            </ComboBox>
+			</StackPanel>
+		</StackPanel>
+
+        <CheckBox Grid.Row="2" IsEnabled="{Binding HasPasswordManager}" IsChecked="{Binding RememberMe}" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+	        <ToolTip.Tip>
+		        Remembers your user and loads it once you type in your hostname.
+		        This function gets disabled without a valid System keyring.
+	        </ToolTip.Tip>
+	        Remember me
+        </CheckBox>
+		<StackPanel	Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+			<Button	Content="Cancel" Margin="5"	Command="{Binding CancelPressed}"/>
+			<Button	Content="Connect" Margin="5" Command="{Binding ConnectPressed}"/>
+		</StackPanel>
+    </Grid>
+</Window>

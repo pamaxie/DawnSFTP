@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels11="clr-namespace:dawn.ftp.ui.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+        Height="200" Width="600"
+        CanResize="False"
+        x:Class="dawn.ftp.ui.Views.AboutWindow"
+        x:DataType="viewModels11:AboutViewModel"
+        Title="AboutWindow">
+    <Design.DataContext>
+        <viewModels11:OptionsViewModel/>
+    </Design.DataContext>
+    <TabControl TabStripPlacement="Left">
+        <TabItem Header="Developer" FontSize="12">
+            <StackPanel Orientation="Vertical" Grid.Row="0" Background="White">
+                <TextBlock Foreground="Black" FontSize="15" Text="{Binding Company}"/>
+                <TextBlock Foreground="Black" FontSize="12" TextWrapping="Wrap">
+                    Please let us know if you encounter any bugs or issues during your experience. If you do reach out to:
+                </TextBlock>
+                <TextBlock Foreground="Black" Text="{Binding Email}"/>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Special Thanks" FontSize="12">
+            <DataGrid ItemsSource="{Binding OpenSourceProjects}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Version" Binding="{Binding Version}"/>
+                    <DataGridTemplateColumn Header="Project URL">
+                        <DataTemplate DataType="viewModels11:OpenSourceProject">
+                            <HyperlinkButton NavigateUri="{Binding Url}">Source</HyperlinkButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+    </TabControl>
+</Window>

@@ -1,0 +1,97 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:i="https://github.com/projektanker/icons.avalonia"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:avalonia="clr-namespace:LoadingIndicators.Avalonia;assembly=LoadingIndicators.Avalonia"
+             xmlns:viewModels="clr-namespace:dawn.ftp.ui.UserControls.ViewModels"
+             xmlns:interfaces="clr-namespace:dawn.ftp.ui.Models.FileModels.Interfaces"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="dawn.ftp.ui.UserControls.FileView"
+             x:DataType="viewModels:FileViewModel">
+	<Design.DataContext>
+		<viewModels:FileViewModel />
+	</Design.DataContext>
+	<dialogHostAvalonia:DialogHost x:Name="DialogHost" CloseOnClickAway="False">
+		<!--Whatever our DialogHost should show-->
+		<dialogHostAvalonia:DialogHost.DialogContent>
+		</dialogHostAvalonia:DialogHost.DialogContent>
+
+		<!-- Our Main window Content-->
+		<Grid >
+			<Grid IsVisible="{Binding !IsBusy}" x:Name="FileGrid">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="1" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30" />
+					<RowDefinition><![CDATA[*]]></RowDefinition>
+				</Grid.RowDefinitions>
+				<TextBox Text="{Binding LocalPath}" Grid.Column="0" Grid.Row="0" Margin="5" />
+				<DataGrid Grid.Row="1" Grid.Column="0" Margin="0, 0, 0, 20"
+				          ItemsSource="{Binding Files}"
+				          IsReadOnly="True"
+				          SelectedIndex="{Binding SelectedItem}"
+				          Classes="draggable"
+				          DoubleTapped="InputElement_OnDoubleTapped"
+				          GridLinesVisibility="None">
+					<Interaction.Behaviors>
+						<BehaviorCollection>
+							<ContextDropBehavior Handler="{StaticResource DataGridDndBfNamedId}" />
+						</BehaviorCollection>
+					</Interaction.Behaviors>
+					<DataGrid.Columns>
+						<DataGridTemplateColumn>
+							<DataTemplate x:DataType="interfaces:IFileSystemObject">
+								<i:Icon Value="{Binding FAIcon}" />
+							</DataTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Header="File Name" Binding="{Binding Name}" />
+						<DataGridTextColumn IsVisible="{Binding ShowLocalFileSize}" Header="Size" Binding="{Binding Size, Converter={StaticResource SizeConverter}}" />
+						<DataGridTextColumn Header="Date modified" Binding="{Binding LastModified}" />
+					</DataGrid.Columns>
+				</DataGrid>
+				<!--Local File View-->
+				<GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="Green"
+				              Margin="5, 0, 5, 0" />
+				<TextBox Text="{Binding RemotePath}" Grid.Row="0" Grid.Column="2" Margin="5" />
+				<DataGrid Grid.Column="2" Grid.Row="1" Margin="0, 0, 0, 20"
+				          ItemsSource="{Binding RemoteFiles}"
+				          IsReadOnly="True"
+				          SelectedIndex="{Binding SelectedRemoteItem}"
+				          Classes="draggable"
+				          DoubleTapped="InputElement_RemoteDoubleTapped"
+				          GridLinesVisibility="None">
+					<Interaction.Behaviors>
+						<BehaviorCollection>
+							<ContextDropBehavior Handler="{StaticResource DataGridDndBfNamedId}" />
+						</BehaviorCollection>
+					</Interaction.Behaviors>
+					<DataGrid.Columns>
+						<DataGridTemplateColumn>
+							<DataTemplate DataType="interfaces:IFileModel">
+								<i:Icon Value="{Binding FAIcon}" />
+							</DataTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Header="File Name" Binding="{Binding Name}" />
+						<DataGridTextColumn IsVisible="{Binding ShowRemoteFileSize}" Header="Size" Binding="{Binding Size, Converter={StaticResource SizeConverter}}" />
+						<DataGridTextColumn Header="Date modified" Binding="{Binding LastModified}" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+			<Grid IsVisible="{Binding IsBusy}">
+				<Grid.RowDefinitions>
+					<RowDefinition><![CDATA[8*]]></RowDefinition>
+					<RowDefinition><![CDATA[*]]></RowDefinition>
+					<RowDefinition><![CDATA[*]]></RowDefinition>
+				</Grid.RowDefinitions>
+				<avalonia:LoadingIndicator Grid.Row="0" HorizontalAlignment="Center" IsActive="{Binding IsBusy}" Mode="Arcs" SpeedRatio="1.2" />
+				<TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding WorkStatus}"/>
+				<Button Grid.Row="2" HorizontalAlignment="Center" Content="Cancel" Command="{Binding CancelAction}"/>
+			</Grid>
+		</Grid>
+	</dialogHostAvalonia:DialogHost>
+</UserControl>

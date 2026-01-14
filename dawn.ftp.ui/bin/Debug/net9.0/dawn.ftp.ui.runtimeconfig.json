@@ -1,0 +1,16 @@
+{
+  "runtimeOptions": {
+    "tfm": "net9.0",
+    "framework": {
+      "name": "Microsoft.NETCore.App",
+      "version": "9.0.0"
+    },
+    "configProperties": {
+      "MaterialThemeIncludeDataGrid": true,
+      "MVVMTOOLKIT_ENABLE_INOTIFYPROPERTYCHANGING_SUPPORT": true,
+      "System.Reflection.NullabilityInfoContext.IsSupported": true,
+      "System.Runtime.InteropServices.BuiltInComInterop.IsSupported": true,
+      "System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization": false
+    }
+  }
+}

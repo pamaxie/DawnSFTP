@@ -1,0 +1,231 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+        xmlns:avalonia1="clr-namespace:LoadingIndicators.Avalonia;assembly=LoadingIndicators.Avalonia"
+        xmlns:viewModels1="clr-namespace:dawn.ftp.ui.ViewModels"
+        xmlns:converters="clr-namespace:dawn.ftp.ui.BusinessLogic.Converters"
+        xmlns:models="clr-namespace:dawn.ftp.ui.Models"
+        xmlns:viewModels11="clr-namespace:dawn.ftp.ui.UserControls.ViewModels"
+        xmlns:userControls1="clr-namespace:dawn.ftp.ui.UserControls"
+        xmlns:interfaces="clr-namespace:dawn.ftp.ui.Models.TransferModels.Interfaces"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="dawn.ftp.ui.Views.MainWindow"
+        x:DataType="viewModels1:MainWindowViewModel"
+        Icon="/Assets/512.png"
+        Loaded="WindowLoaded"
+        Title="Dawn SFTP Client">
+
+    <Design.DataContext>
+        <viewModels1:MainWindowViewModel/>
+    </Design.DataContext>
+    <Window.Resources>
+        <converters:TimeConverter x:Key="TimeConverter"/>
+    </Window.Resources>
+    <Grid ColumnDefinitions="*, *, *" RowDefinitions="30, 50, *">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MaxHeight="50" Background="Gray">
+            <Button Content="File" UseLayoutRounding="False">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuItem Header="New Tab" Command="{Binding CreateTab}"/>
+                        <MenuItem Header="Clone Tab" Command="{Binding CloneTab}" IsEnabled="{Binding HasConnection}"/>
+                        <MenuItem Header="Close Tab" Command="{Binding CloseActiveTab}" IsEnabled="{Binding HasConnection}"/>
+                        <MenuItem Header="Options" Command="{Binding OpenOptions}"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <Button Content="Help" UseLayoutRounding="False">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuItem Header="About" Command="{Binding OpenAboutWindow}"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+            <Button Content="Manage Connections">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuItem Command="{Binding QuickConnectPressed}" Header="New Connection"/>
+                        <MenuItem Classes="SubItems" Header="Previous Connections" ItemsSource="{Binding PreviousConnections}">
+                            <MenuItem.DataTemplates>
+                                <DataTemplate x:DataType="{x:Type models:SftpConnectionProperty}" >
+                                    <MenuItem Focusable="True" IsEnabled="True" Header="{Binding Name}"/>
+                                </DataTemplate>
+                            </MenuItem.DataTemplates>
+                            <MenuItem.Styles>
+                                <Style Selector="MenuItem.SubItems MenuItem" x:DataType="models:SftpConnectionProperty">
+                                    <Setter Property="Header" Value="{Binding Name}"/>
+                                    <Setter Property="Command" Value="{Binding $parent[Window].((viewModels1:MainWindowViewModel)DataContext).Connect}"  />
+                                    <Setter Property="CommandParameter" Value="{Binding .}"/>
+                                </Style>
+                            </MenuItem.Styles>
+                        </MenuItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+ 
+            <Button Content="Refresh" Command="{Binding RefreshPressed}" IsEnabled="{Binding HasConnection}"/>
+            <Button Content="Disconnect" Command="{Binding DisconnectPressed}" IsEnabled="{Binding HasConnection}"/>
+        </StackPanel>
+        
+        <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="600"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*" MinHeight="200"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TabControl ItemsSource="{Binding Connections}" SelectedIndex="{Binding SelectedTab}">
+                    <TabControl.ContentTemplate>
+                        <DataTemplate x:DataType="{x:Type viewModels11:FileViewModel}">
+                            <userControls1:FileView	DndDropHandler="{StaticResource	DataGridDndBfNamedId}"/>
+                        </DataTemplate>    
+                    </TabControl.ContentTemplate>
+                    <TabControl.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type viewModels11:FileViewModel}">
+                            <StackPanel Orientation="Horizontal">
+                                <avalonia:Icon Foreground="White" Value="{Binding RemoteOsIcon}" />
+                                <TextBlock Text="{Binding ConnectionProperty.Name}"/>
+                                <Button Command="{Binding CloseConnection}">
+                                    <avalonia:Icon Foreground="White" Value="fas fa-window-close"></avalonia:Icon>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                </TabControl>
+            </Grid>
+            
+            <GridSplitter  ResizeDirection="Rows" Grid.Row="1" Background="Gray" />
+            <TabControl Grid.Row="2" MinHeight="200">
+                <TabItem Header="Active Transfers">
+					<Grid>
+                        <DataGrid ItemsSource="{Binding Transfers}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="File Name" Binding="{Binding FileName}"/>
+                                <DataGridTextColumn Header="Transfer Status" Binding="{Binding Status}"/>
+                                <DataGridTemplateColumn Header="Upload Progress">
+                                    <DataTemplate DataType="interfaces:IFileTransferModel">
+                                        <ProgressBar Maximum="100" Minimum="0" Value="{Binding Progress}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Avg Speed" Binding="{Binding Speed}"/>
+                                <DataGridTemplateColumn>
+                                    <DataTemplate DataType="interfaces:IFileTransferModel">
+                                        <Button Command="{Binding CancelTransfer}">Cancel Transfer</Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Failed Transfers">
+                    <Grid>
+						<DataGrid ItemsSource="{Binding FailedTransfers}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="File Name" Binding="{Binding FileName}"/>
+                                <DataGridTextColumn Header="Transfer Status" Binding="{Binding Status}"/>
+                                <DataGridTextColumn Header="Failure Reason" Binding="{Binding FailureReason}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+					</Grid>
+                </TabItem>
+                <TabItem Header="Successful Transfers">
+                    <Grid>
+						<DataGrid ItemsSource="{Binding CompletedTransfers}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="File Name" Binding="{Binding FileName}"/>
+                                <DataGridTextColumn Header="Transfer Status" Binding="{Binding Status}"/>
+                                <DataGridTextColumn Header="Transfer Duration" Binding="{Binding TransferTime}"/>
+                                <DataGridTextColumn Header="Avg Speed" Binding="{Binding Speed}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="{Binding SelectedConnection.Name}" IsVisible="{Binding HasConnection}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <Button Grid.Column="0" Command="{Binding RefreshScripts}">Refresh Scripts</Button>
+                            <TreeView Grid.Column="0" ItemsSource="{Binding ScriptNodes}" 
+                                      IsVisible="{Binding !ScriptsRefreshing}">
+                                <TreeView.ItemTemplate>
+                                    <TreeDataTemplate ItemsSource="{Binding Children}">
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <avalonia:Icon Grid.Column="0" Value="{Binding Icon}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding PathName}"/>
+                                            <Button Grid.Column="2" Content="Run Remotely" IsVisible="{Binding CanExecute}" 
+                                                    IsEnabled="{Binding CanExecute}" Command="{Binding RunScriptRemotely}"/>
+                                            <Button Grid.Column="3" Content="Edit Command" IsVisible="{Binding CanExecute}" 
+                                                    IsEnabled="{Binding CanExecute}" Command="{Binding EditScript}"/>
+                                        </Grid>
+                                    </TreeDataTemplate>
+                                </TreeView.ItemTemplate>
+                            </TreeView>
+                            <avalonia1:LoadingIndicator Grid.Row="0" HorizontalAlignment="Center" 
+                                                        IsActive="{Binding ScriptsRefreshing}" 
+                                                        Mode="Arcs" SpeedRatio="1.2" />
+                        </StackPanel>
+                        <TabControl Grid.Column="1" IsVisible="True">
+                            <TabItem Header="Remote Tasks">
+                                <DataGrid ItemsSource="{Binding SelectedConnection.Processes}" AutoGenerateColumns="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Process Name" Binding="{Binding Name}" />
+                                        <DataGridTextColumn Header="User" Binding="{Binding Owner}"/>
+                                        <DataGridTextColumn Header="Runtime" Binding="{Binding RunTime, Converter={StaticResource TimeConverter}}"/>
+                                        <DataGridTextColumn Header="CPU Usage" Binding="{Binding CpuUsageDisplay}" />
+                                        <DataGridTextColumn Header="Memory Usage" Binding="{Binding MemoryUsageDisplay}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </TabItem>
+                            <TabItem Header="Remote Terminal">
+                                <TabControl TabStripPlacement="Right" ItemsSource="{Binding SelectedConnection.ShellStreams}">
+                                    <TabControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Header}" />
+                                        </DataTemplate>
+                                    </TabControl.ItemTemplate>
+                                    <TabControl.ContentTemplate>
+                                        <DataTemplate DataType="viewModels11:ShellItemViewModel">
+                                            <Grid Margin="10">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition Height="10"/>
+                                                </Grid.RowDefinitions>
+                                                <ScrollViewer Name="ScrollViewer" Grid.Row="0" IsPointerOver="{Binding PointerOver}"
+                                                              x:FieldModifier="public">
+                                                    <TextBlock Background="Black" Foreground="White" Text="{Binding TtyBuffer}" 
+                                                               IsPointerOver="{Binding PointerOver}"/>
+                                                </ScrollViewer>
+                                                
+                                                <TextBox Grid.Row="1" LineHeight="10" Height="10" Background="Black" Text="{Binding CommandLine}">
+                                                    <TextBox.KeyBindings>
+                                                        <KeyBinding Gesture="Enter" Command="{Binding PressedEnter}"/>
+                                                        <KeyBinding Gesture="Ctrl+c" Command="{Binding AbortPressed}"/>
+                                                    </TextBox.KeyBindings>
+                                                </TextBox>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </TabControl.ContentTemplate>
+                                </TabControl>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>

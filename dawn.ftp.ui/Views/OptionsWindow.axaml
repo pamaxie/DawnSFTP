@@ -1,0 +1,231 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="800"
+        Height="800"
+        CanResize="False"
+        x:Class="dawn.ftp.ui.Views.OptionsWindow"
+        xmlns:viewModels1="clr-namespace:dawn.ftp.ui.ViewModels"
+        x:DataType="viewModels1:OptionsViewModel"
+        Title="OptionsWindow">
+    <Design.DataContext>
+        <viewModels1:OptionsViewModel/>
+    </Design.DataContext>
+    <Grid >
+          <Grid.ColumnDefinitions>
+              <ColumnDefinition/>
+              <ColumnDefinition/>
+          </Grid.ColumnDefinitions> 
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TabStripPlacement="Left">
+            <TabItem Header="Transfer Settings">
+                <ScrollViewer>
+                                    <Grid VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition><![CDATA[*]]></RowDefinition>
+                        <RowDefinition><![CDATA[*]]></RowDefinition>
+                        <RowDefinition><![CDATA[*]]></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" FontSize="30" Text="Transfer Settings" Margin="0, 10"/>
+                    <StackPanel Grid.Row="2">
+                        <TextBlock FontSize="20" Text="File / Directory Indexing options" Margin="0, 10"/>
+                        <Grid Margin="10, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Local" Margin="0, 10, 0, 5" FontStyle="Italic" TextDecorations="Underline"/>
+                            <ToggleSwitch Grid.Row="1" Grid.Column="0" IsChecked="{Binding IndexLocalFileSize}">
+                                Index Local File Size
+                            </ToggleSwitch>
+                            <ToggleSwitch Grid.Row="1" Grid.Column="1" IsChecked="{Binding IndexLocalDirectories}">
+                                Index Local Directory Size
+                            </ToggleSwitch>
+                            <TextBlock FontStyle="Italic" TextDecorations="Underline" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Remote" Margin="0, 10, 0, 5"/>
+                            <ToggleSwitch Grid.Row="3" Grid.Column="0" IsChecked="{Binding IndexRemoteFileSize}">
+                                Index Remote File Size
+                            </ToggleSwitch>
+                            <ToggleSwitch Grid.Row="3" Grid.Column="1" IsChecked="{Binding IndexRemoteDirectories}">
+                                Index Remote Directory Size
+                            </ToggleSwitch>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3">
+                        <TextBlock FontSize="20" Text="Advanced Features" Margin="0, 10"/>
+                        <ToggleSwitch IsChecked="{Binding EnableAdvanced}">
+                            Show Advanced Features
+                        </ToggleSwitch>
+                        <Grid IsVisible="{Binding EnableAdvanced}" Margin="10, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <ToggleSwitch Grid.Row="0" Grid.Column="0" Margin="0, 10" IsChecked="{Binding DisableAutomaticRefresh}">
+                                Automatic Connection Refreshing
+                            </ToggleSwitch>
+                            <ToggleSwitch Grid.Row="0" Grid.Column="1" Margin="0, 10" IsEnabled="{Binding !DisableAutomaticRefresh}" 
+                                          IsChecked="{Binding DisableAutomaticFileRefresh}">
+                                Automatic File Refreshing
+                            </ToggleSwitch>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0, 15">
+                                <TextBlock Text="Refresh Interval (ms, max: 300 000)"/>
+                                <NumericUpDown Value="{Binding RefreshInterval}" Increment="100" Minimum="0" Maximum="300000"/>
+                            </StackPanel>
+                            
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="SFTP Zipping Options" FontStyle="Italic" TextDecorations="Underline" Margin="0, 10, 0, 5"/>
+                            <ToggleSwitch Grid.Row="3" Grid.Column="0" IsChecked="{Binding ZipRemoteFiles}">
+                                Zip Downloads
+                            </ToggleSwitch>
+                            <ToggleSwitch Grid.Row="3" Grid.Column="1" IsChecked="{Binding ZipLocalFiles}">
+                                Zip Uploads
+                            </ToggleSwitch>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="UI Settings">
+                <ScrollViewer>
+                                   <Grid VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" FontSize="30" Text="UI Settings / Customization" Margin="0, 10"/>
+                    <StackPanel Grid.Row="1">
+                        <TextBlock FontSize="20" Text="General Options" Margin="0, 10"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleSwitch Grid.Row="0" Grid.Column="0" IsChecked="{Binding UseDarkMode}">
+                                Enable Dark Mode
+                            </ToggleSwitch>
+                            <ComboBox Grid.Row="0" Grid.Column="1" >
+                                <ComboBoxItem>Fluent Theme</ComboBoxItem>
+                                <ComboBoxItem>Classic Theme</ComboBoxItem>
+                                <ComboBoxItem>Retro Theme</ComboBoxItem>
+                                <ComboBoxItem>Material Theme</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2">
+                        <TextBlock FontSize="20" Text="Remote View Properties" Margin="0, 10"/>
+                        <Grid Margin="10, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ToggleSwitch Grid.Row="0" Grid.Column="0" IsChecked="{Binding ShowIdleRemoteTasks}">
+                                Show System Tasks
+                            </ToggleSwitch>
+                            <ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="{Binding ShowIdleRemoteTasks}">
+                                Show Idle Remote Tasks
+                            </ToggleSwitch>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3">
+                        <TextBlock FontSize="20" Text="Remote Transfer Views" Margin="0, 10"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ToggleSwitch Grid.Row="0" Grid.Column="0" IsChecked="{Binding HideTransferStatus}">
+                                    Hide Remote Transfer Status
+                                </ToggleSwitch>
+                                <!-- These properties are directly related which is why they are logically organized together. -->
+                                <ToggleSwitch Grid.Row="1" Grid.Column="0" IsEnabled="{Binding !HideTransferStatus}" Margin="10, 0"
+                                              IsChecked="{Binding HideSuccessfulTransfers}">
+                                    Hide Successful Transfers
+                                </ToggleSwitch>
+                                <ToggleSwitch Grid.Row="1" Grid.Column="1"  IsEnabled="{Binding !HideTransferStatus}"
+                                              IsChecked="{Binding HideFailedTransfers}">
+                                    Hide Failed Transfers
+                                </ToggleSwitch>
+                                <ToggleSwitch Grid.Row="2" Grid.Column="0" IsEnabled="{Binding !HideTransferStatus}" Margin="10, 0"
+                                              IsChecked="{Binding HideActiveTransfers}">
+                                    Hide Active Transfers
+                                </ToggleSwitch>
+                            </Grid>
+                            <Grid Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ToggleSwitch Grid.Row="0" Grid.Column="0"  IsChecked="{Binding HideRemoteManagementView}">
+                                    Hide Remote Management
+                                </ToggleSwitch>
+                                <ToggleSwitch Grid.Row="1" Grid.Column="0" IsChecked="{Binding HideRemotePerformanceMonitoring}" 
+                                              IsEnabled="{Binding !HideRemoteManagementView}" 
+                                              Margin="10, 0">
+                                    Hide Remote Performance Monitoring
+                                </ToggleSwitch>
+                                <ToggleSwitch Grid.Row="1" Grid.Column="1" IsChecked="{Binding HideRemoteScriptExecution}"
+                                              IsEnabled="{Binding !HideRemoteManagementView}">
+                                    Hide Remote Script Execution
+                                </ToggleSwitch>
+                                <ToggleSwitch Grid.Row="2" Grid.Column="0" IsChecked="{Binding HideRemoteShell}"
+                                              IsEnabled="{Binding !HideRemoteManagementView}">
+                                    Hide Remote Shell
+                                </ToggleSwitch>
+                            </Grid>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Privacy settings">
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleSwitch Grid.Column="0" IsChecked="{Binding CollectData}" Margin="5">Collect Anonymized Data</ToggleSwitch>
+                    <Button Grid.Column="1" Command="{Binding OpenPrivacyPolicy}" Margin="5">Privacy Policy</Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <Button Margin="5"  Command="{Binding Cancel}">Cancel</Button>
+            <Button Margin="5" Command="{Binding Apply}">Apply</Button>
+            <Button Margin="5"  Command="{Binding Save}">Save</Button>
+        </StackPanel>
+    </Grid>
+</Window>

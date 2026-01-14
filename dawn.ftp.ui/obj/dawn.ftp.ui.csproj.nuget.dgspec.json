@@ -1,0 +1,211 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/dawn/Documents/DawnSFTP/dawn.ftp.ui/dawn.ftp.ui.csproj": {}
+  },
+  "projects": {
+    "/Users/dawn/Documents/DawnSFTP/dawn.ftp.ui/dawn.ftp.ui.csproj": {
+      "version": "1.0.1",
+      "restore": {
+        "projectUniqueName": "/Users/dawn/Documents/DawnSFTP/dawn.ftp.ui/dawn.ftp.ui.csproj",
+        "projectName": "dawn.ftp.ui",
+        "projectPath": "/Users/dawn/Documents/DawnSFTP/dawn.ftp.ui/dawn.ftp.ui.csproj",
+        "packagesPath": "/Users/dawn/.nuget/packages/",
+        "outputPath": "/Users/dawn/Documents/DawnSFTP/dawn.ftp.ui/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/dawn/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Avalonia": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Avalonia.Controls.ColorPicker": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Avalonia.Controls.DataGrid": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Avalonia.Controls.TreeDataGrid": {
+              "target": "Package",
+              "version": "[11.1.1, )"
+            },
+            "Avalonia.Desktop": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Avalonia.Diagnostics": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Avalonia.Fonts.Inter": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Avalonia.Labs.Controls": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Avalonia.ReactiveUI": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Avalonia.Themes.Fluent": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Classic.Avalonia.Theme": {
+              "target": "Package",
+              "version": "[11.3.0.3, )"
+            },
+            "Classic.Avalonia.Theme.DataGrid": {
+              "target": "Package",
+              "version": "[11.3.0.3, )"
+            },
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.4.0, )"
+            },
+            "DialogHost.Avalonia": {
+              "target": "Package",
+              "version": "[0.9.3, )"
+            },
+            "IdGen": {
+              "target": "Package",
+              "version": "[3.0.7, )"
+            },
+            "KeySharp": {
+              "target": "Package",
+              "version": "[1.0.5, )"
+            },
+            "LoadingIndicators.Avalonia": {
+              "target": "Package",
+              "version": "[11.0.11.1, )"
+            },
+            "Material.Avalonia": {
+              "target": "Package",
+              "version": "[3.13.0, )"
+            },
+            "Material.Avalonia.DataGrid": {
+              "target": "Package",
+              "version": "[3.13.0, )"
+            },
+            "Material.Avalonia.Dialogs": {
+              "target": "Package",
+              "version": "[3.13.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite.Core": {
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Projektanker.Icons.Avalonia.FontAwesome": {
+              "target": "Package",
+              "version": "[9.6.2, )"
+            },
+            "Renci.SshNet.Async": {
+              "target": "Package",
+              "version": "[1.4.0, )"
+            },
+            "SSH.NET": {
+              "target": "Package",
+              "version": "[2025.0.0, )"
+            },
+            "Semi.Avalonia": {
+              "target": "Package",
+              "version": "[11.2.1.10, )"
+            },
+            "Semi.Avalonia.DataGrid": {
+              "target": "Package",
+              "version": "[11.2.1.10, )"
+            },
+            "Semi.Avalonia.Dock": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Sentry": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Sentry.Profiling": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Verify.CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Xaml.Behaviors.Interactions.Custom": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            },
+            "Xaml.Behaviors.Interactions.DragAndDrop": {
+              "target": "Package",
+              "version": "[11.3.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.307/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

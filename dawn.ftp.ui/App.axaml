@@ -1,0 +1,53 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="dawn.ftp.ui.App"
+             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             xmlns:behaviors="clr-namespace:dawn.ftp.ui.Behaviors"
+             xmlns:interfaces="clr-namespace:dawn.ftp.ui.Models.FileModels.Interfaces"
+             xmlns:converters="clr-namespace:dawn.ftp.ui.BusinessLogic.Converters"
+             xmlns:ui1="clr-namespace:dawn.ftp.ui"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+             <Application.Resources>
+                 <ResourceDictionary>
+                     <ResourceDictionary.MergedDictionaries>
+                         <ResourceInclude Source="avares://LoadingIndicators.Avalonia/LoadingIndicators.axaml" />
+                     </ResourceDictionary.MergedDictionaries>
+                 </ResourceDictionary>
+                 <behaviors:DataGridDnd x:Key="DataGridDndBfNamedId" x:TypeArguments="interfaces:IFileSystemObject" />
+                 <behaviors:DataGridDragHandler x:Key="DataGridDragHandler" />
+                 <converters:SizeConverter x:Key="SizeConverter"/>
+             </Application.Resources>
+             <Application.DataTemplates>
+        <ui1:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <Style Selector="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="CanUserReorderColumns" Value="False" />
+            <Setter Property="CanUserSortColumns" Value="False" />
+            <Setter Property="CanUserResizeColumns" Value="True" />
+        </Style>
+        <FluentTheme/>
+        <dialogHostAvalonia:DialogHostStyles />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+        <StyleInclude Source="DndStyles.axaml" />
+        <Style Selector="DataGrid.dragging-up DataGridRow.dragging">
+            <Setter Property="AdornerLayer.Adorner">
+                <Template>
+                    <Border BorderThickness="0 2 0 0" BorderBrush="White" />
+                </Template>
+            </Setter>
+        </Style>
+
+        <Style Selector="DataGrid.dragging-down DataGridRow.dragging">
+            <Setter Property="AdornerLayer.Adorner">
+                <Template>
+                    <Border BorderThickness="0 0 0 2" BorderBrush="White" />
+                </Template>
+            </Setter>
+        </Style>
+	</Application.Styles>
+</Application>
